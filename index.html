@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <style media="screen">
+        #houses{
+            width: 778px;
+            margin: 20px auto;
+        }
+        fieldset{
+            margin-top: 20px;
+        }
+        span{
+            font-weight: normal;
+        }
+    </style>
+    <title>Game of Thrones</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+           $('img').click(function(){
+            var id = $(this).attr("id");
+            $.get(`https://anapioficeandfire.com/api/houses/${id}`, function(res){
+                console.log(res)
+                var string = res.titles[0]
+                for (var i = 1; i < res.titles.length; i++) {
+                    string += ", " + res.titles[i]
+                }
+                var html = `<fieldset>
+                    <legend>House Detail</legend>
+                    <h2>Name: ${res.name}</h2>
+                    <h3>Words: <span>${res.words}</span></h3>
+                    <h3>Titles: <span>${string}</span></h3>
+                </fieldset>`
+                $('#results').html(html);
+            }, 'json');
+            return false;
+           })
+        });
+    </script>
+</head>
+<body>
+<div id="houses">
+    <img src="img/baratheon.jpg" id="17" width=200>
+    <img src="img/lannister.jpg" id="229" width=200>
+    <img src="img/stark.png" id="362" width=183>
+    <img src="img/targaryan.png" id="378" width=183>
+    <div id="results">
+        <fieldset>
+            <legend>House Detail</legend>
+            <h2>Name:</h2>
+            <h3>Words:</h3>
+            <h3>Titles:</h3>
+        </fieldset>
+    </div>
+</div>
+</body>
+</html>
